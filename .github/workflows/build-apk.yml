@@ -88,6 +88,17 @@ jobs:
           fi
           echo "Temporary debug keystore verified."
 
+      - name: Configure Android SDK
+        run: |
+          if [ -n "$ANDROID_HOME" ]; then
+            echo "sdk.dir=$ANDROID_HOME" > local.properties
+          elif [ -n "$ANDROID_SDK_ROOT" ]; then
+            echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          fi
+          if [ -f "local.properties" ]; then
+            cat local.properties
+          fi
+
       - name: Build debug APK
         run: |
           gradle :app:assembleDebug --stacktrace --no-daemon
